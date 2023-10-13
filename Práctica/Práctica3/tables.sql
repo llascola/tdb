@@ -1,0 +1,86 @@
+CREATE DATABASE IF NOT EXISTS ProvPartProy;
+
+USE ProvPartProy;
+
+DROP TABLE IF EXISTS SPJ;
+DROP TABLE IF EXISTS S;
+DROP TABLE IF EXISTS P;
+DROP TABLE IF EXISTS J;
+
+CREATE TABLE S (
+  S	          CHAR(5)		    NOT NULL,
+  SNOMBRE     VARCHAR(20)   NOT NULL,
+  SITUACION   INT           NULL,
+  CIUDAD      VARCHAR(20)   NOT NULL,
+  PRIMARY KEY (S)
+);
+
+CREATE TABLE P (
+    P           CHAR(5)         NOT NULL,
+    PNOMBRE     VARCHAR(20)     NOT NULL,
+    COLOR       VARCHAR(20)     NOT NULL,
+    PESO        INT             NOT NULL,
+    CIUDAD      VARCHAR(20)     NOT NULL,
+    PRIMARY KEY (P)
+);
+
+CREATE TABLE J (
+    J           CHAR(5)         NOT NULL,
+    JNOMBRE     VARCHAR(20)     NOT NULL,
+    CIUDAD      VARCHAR(20)     NOT NULL,
+    PRIMARY KEY (J)
+);
+
+CREATE TABLE SPJ (
+    S          CHAR(5)         NOT NULL,
+    P          CHAR(5)         NOT NULL,
+    J          CHAR(5)         NOT NULL,
+    CANT       INT             NOT NULL,
+    PRIMARY KEY (S,P,J)
+);
+
+INSERT INTO S VALUES ('S1', 'Salazar', 20, 'Londres');
+INSERT INTO S VALUES ('S2', 'Jaimes', 10, 'París');
+INSERT INTO S VALUES ('S3', 'Bernal', 30, 'París');
+INSERT INTO S VALUES ('S4', 'Corona', 20, 'Londres');
+INSERT INTO S VALUES ('S5', 'Aldana', 30, 'Atenas');
+
+INSERT INTO P VALUES ('P1', 'Tuerca', 'Rojo', 12, 'Londres');
+INSERT INTO P VALUES ('P2', 'Perno', 'Verde', 17, 'París');
+INSERT INTO P VALUES ('P3', 'Burlete', 'Azul', 17, 'Roma');
+INSERT INTO P VALUES ('P4', 'Burlete', 'Rojo', 14, 'Londres');
+INSERT INTO P VALUES ('P5', 'Leva', 'Azul', 12, 'París');
+INSERT INTO P VALUES ('P6', 'Engranaje', 'Rojo', 19, 'Londres');
+
+
+INSERT INTO J VALUES ('J1', 'Clasificador', 'París');
+INSERT INTO J VALUES ('J2', 'Perforadora', 'Roma');
+INSERT INTO J VALUES ('J3', 'Lectora', 'Atenas');
+INSERT INTO J VALUES ('J4', 'Consola', 'Atenas');
+INSERT INTO J VALUES ('J5', 'Compaginador', 'Londres');
+INSERT INTO J VALUES ('J6', 'Terminal', 'Oslo');
+INSERT INTO J VALUES ('J7', 'Cinta', 'Londres');
+
+INSERT INTO SPJ VALUES('S1', 'P1', 'J1', 200);
+INSERT INTO SPJ VALUES('S1', 'P1', 'J4', 700);
+INSERT INTO SPJ VALUES('S2', 'P3', 'J1', 400);
+INSERT INTO SPJ VALUES('S2', 'P3', 'J2', 200);
+INSERT INTO SPJ VALUES('S2', 'P3', 'J3', 200);
+INSERT INTO SPJ VALUES('S2', 'P3', 'J4', 500);
+INSERT INTO SPJ VALUES('S2', 'P3', 'J5', 600);
+INSERT INTO SPJ VALUES('S2', 'P3', 'J6', 400);
+INSERT INTO SPJ VALUES('S2', 'P3', 'J7', 800);
+INSERT INTO SPJ VALUES('S2', 'P5', 'J2', 100);
+INSERT INTO SPJ VALUES('S3', 'P3', 'J1', 200);
+INSERT INTO SPJ VALUES('S3', 'P4', 'J2', 500);
+INSERT INTO SPJ VALUES('S4', 'P6', 'J3', 300);
+INSERT INTO SPJ VALUES('S4', 'P6', 'J7', 300);
+INSERT INTO SPJ VALUES('S5', 'P2', 'J2', 200);
+INSERT INTO SPJ VALUES('S5', 'P2', 'J4', 100);
+INSERT INTO SPJ VALUES('S5', 'P5', 'J5', 500);
+INSERT INTO SPJ VALUES('S5', 'P5', 'J7', 100);
+INSERT INTO SPJ VALUES('S5', 'P1', 'J4', 100);
+INSERT INTO SPJ VALUES('S5', 'P3', 'J4', 200);
+INSERT INTO SPJ VALUES('S5', 'P4', 'J4', 800);
+INSERT INTO SPJ VALUES('S5', 'P5', 'J4', 400);
+INSERT INTO SPJ VALUES('S5', 'P6', 'J4', 500);

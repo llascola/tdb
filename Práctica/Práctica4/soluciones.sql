@@ -1,0 +1,164 @@
+/* I 
+        COMPETICION (P#, DESCRIPCION, CATEGORIA)
+        CLUB (C#, NOM_C, PRESUPUESTO)
+        PARTICIPACION (C#, P#, PUESTO) 
+*/
+
+/* 1 */
+
+SELECT NOM_C
+FROM CLUB
+WHERE PRESUPUESTO > 5000000
+    AND C# IN (
+        SELECT C#
+        FROM PARTICIPACION
+        WHERE P# IN (
+            SELECT P#
+            FROM COMPETICION
+            WHERE CATEGORIA=2
+        )
+    );
+
+/* 2 */
+
+SELECT NOM_C
+FROM CLUB
+WHERE C# IN (
+    SELECT C#
+    FROM PARTICIPACION
+    WHERE PUESTO=1
+);
+
+/* 3 */
+
+SELECT NOM_C
+FROM CLUB
+WHERE NOT EXISTS (
+    SELECT *
+    FROM COMPETICION
+    WHERE P# NOT IN (
+        SELECT P#
+        FROM PARTICIPACION
+        WHERE CLUB.C# = C#
+    )
+);
+
+/* 4 */
+
+SELECT NOM_C
+FROM CLUB
+WHERE EXISTS (
+        SELECT *
+        FROM PARTICIPACION
+        WHERE C# = CLUB.C# AND P#='P1'  
+    )
+    AND EXISTS (
+        SELECT *
+        FROM PARTICIPACION
+        WHERE C# = CLUB.C# AND P#='P2'
+    );
+
+/* 5 */
+
+SELECT NOM_C, PRESUPUESTO
+FROM CLUB
+WHERE NOT EXISTS (
+    SELECT *
+    FROM PARTICIPACION
+    WHERE C# = CLUB.C# AND PUESTO = 1
+);
+
+/* II
+        JUGADORES (J#, NOMBRE, NACIONALIDAD)
+        CAMPEONATOS (C#, CNOMBRE, CATEGORIA)
+        PARTIDAS (P#, J1#, J2#, C#, FECHA, RESULTADO) 
+*/
+
+/* 1 */
+
+SELECT P#, FECHA, RESULTADO
+FROM PARTIDAS
+WHERE (J1# IN SELECT(
+        SELECT J#
+        FROM JUGADORES
+        WHERE NACIONALIDAD='Argentina'
+    ) OR J2# IN SELECT(
+        SELECT J#
+        FROM JUGADORES
+        WHERE NACIONALIDAD='Argentina'
+    )) AND C# IN (
+        SELECT C#
+        FROM CAMPEONATOS
+        WHERE CATEGORIA = 'Junior'
+    );
+
+/* 2 */
+
+SELECT NOMBRE
+FROM JUGADORES
+WHERE EXISTS (
+        SELECT *
+        FROM PARTIDAS
+        WHERE (JUGADORES.J# = J1# OR JUGADORES.J# = J2#) AND C# IN ('C1', 'C7')
+    );
+
+/* 3 */
+
+SELECT NOMBRE
+FROM JUGADORES
+WHERE EXISTS (
+        SELECT *
+        FROM PARTIDAS
+        WHERE (JUGADORES.J# = J1# OR JUGADORES.J# = J2#) AND C# ='C1'
+    ) AND EXISTS (
+        SELECT *
+        FROM PARTIDAS
+        WHERE (JUGADORES.J# = J1# OR JUGADORES.J# = J2#) AND C# ='C7'
+    );
+
+/* 4 */
+
+SELECT CNOMBRE
+FROM CAMPEONATOS
+WHERE C# IN (
+    SELECT C#
+    FROM PARTIDAS, JUGADORES J1, JUGADORES J2
+    WHERE PARTIDAS.J1# = J1.J# 
+      AND PARTIDAS.J2# = J2.J#
+      AND J1.NACIONALIDAD = J2.NACIONALIDAD  
+);
+
+/* 5 */
+
+SELECT NOMBRE
+FROM JUGADORES
+WHERE NOT EXISTS (
+    SELECT *
+    FROM PARTIDAS
+    WHERE JUGADORES.J# = J1# OR JUGADORES.J# = J2#
+)
+
+/* III
+        PERSONA (Nombre, Sexo, FechaNac, NombreMadre, NombrePadre)
+        MATRIMONIO (NombreMujer, NombreVarón, FechaRealización, FechaFin) 
+*/
+
+/* 1 */
+
+SELECT Nombre
+FROM PERSONA
+WHERE NOT EXISTS (
+    SELECT * 
+    FROM MATRIMONIO
+    WHERE NombreMujer = PERSONA.NombreMadre AND NombreVarón = PERSONA.NombrePadre
+);
+
+/* 2 */
+
+SELECT Nombre
+FROM PERSONA
+WHERE FechaNac = MIN(
+    SELECT FechaNac
+    FROM PERSONA P2
+    WHERE 
+)
